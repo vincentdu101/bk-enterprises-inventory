@@ -1,5 +1,6 @@
 package com.bkenterprises.inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -13,13 +14,18 @@ public class Invoice {
     private int quantity;
     private float rate;
     private float totalCost;
+
+    @JsonIgnore
     private LocalDateTime createdOn;
+    @JsonIgnore
     private LocalDateTime modifiedOn;
 
     public Invoice() {}
 
     public Invoice(String uuid, String productUUID, String vendorUUID,
-                   int quantity, float rate, float totalCost, LocalDateTime createdOn) {
+                   int quantity, float rate, float totalCost,
+                   LocalDateTime createdOn,
+                   LocalDateTime modifiedOn) {
         this.uuid = uuid;
         this.productUUID = productUUID;
         this.vendorUUID = vendorUUID;
@@ -27,6 +33,7 @@ public class Invoice {
         this.rate = rate;
         this.totalCost = totalCost;
         this.createdOn = createdOn;
+        this.modifiedOn = modifiedOn;
     }
 
     public float getRate() {
@@ -109,13 +116,12 @@ public class Invoice {
                 this.productUUID.equals(invoice.productUUID) &&
                 this.rate == invoice.rate &&
                 this.quantity == invoice.quantity &&
-                this.totalCost == invoice.totalCost &&
-                this.createdOn.equals(invoice.createdOn);
+                this.totalCost == invoice.totalCost;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.uuid, this.vendorUUID, this.productUUID, this.createdOn);
+        return Objects.hash(this.uuid, this.vendorUUID, this.productUUID);
     }
 
 }
